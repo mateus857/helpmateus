@@ -10,8 +10,9 @@ class Receita extends Model
     use HasFactory;
 
     protected $fillable = [
+        'nome',
         'descricao',
+        'categoria',
         'valor',
-        '_token', // Adicionando _token à lista fillable
     ];
 }

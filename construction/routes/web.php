@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
 //CRIAR RECEITAS
 
-    Route::get('/receitas/create', [ReceitaController::class, 'create'])->name('receitas.create');
+    Route::get('/receitas/store', [ReceitaController::class, 'store'])->name('receitas.index');
     Route::post('/receitas', [ReceitaController::class, 'store'])->name('receitas.store');
 
 //VISUALIZAR RECEITAS

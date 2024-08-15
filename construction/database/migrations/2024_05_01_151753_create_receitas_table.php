@@ -9,8 +9,10 @@ class CreateReceitasTable extends Migration
     {
         Schema::create('receitas', function (Blueprint $table) {
             $table->id();
+            $table->string('nome');
             $table->string('descricao');
             $table->decimal('valor', 10, 2);
+            $table->string('categoria');
             $table->timestamps();
         });
     }

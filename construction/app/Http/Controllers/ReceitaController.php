@@ -25,26 +25,30 @@ class ReceitaController extends Controller
     // Método para exibir o formulário de cadastro de receitas
     public function create()
     {
-        return view('receitas.create');
+        return view('receitas.index');
     }
 
     // Método para salvar a receita
     public function store(Request $request)
     {
-        // Remove o campo _token dos dados
-        $data = $request->except('_token');
+        // Valida os dados de entrada
+        $validatedData = $request->validate([
+            'nome' => 'required|string|max:255',
+            'descricao' => 'nullable|string',
+            'categoria' => 'required|string|max:255',
+            'valor' => 'required|numeric',
+        ]);
 
-        // Cria uma nova instância do modelo Receita
-        $receita = new Receita();
+        try {
+            // Cria uma nova instância de Receita e salva no banco de dados
+            $receita = Receita::create($validatedData);
 
-        // Atribui os dados do formulário ao modelo
-        $receita->descricao = $data['descricao'];
-        $receita->valor = $data['valor'];
-
-        // Salva a receita
-        $receita->save();
-
-        // Redireciona de volta com uma mensagem de sucesso
-        return redirect()->back()->with('success', 'Receita cadastrada com sucesso!');
+            // Redireciona para a página de listagem com uma mensagem de sucesso
+            return redirect()->route('receitas.index')->with('success', 'Receita criada com sucesso!');
+        } catch (\Exception $e) {
+            // Se ocorrer um erro, redireciona de volta com uma mensagem de erro
+            return redirect()->route('receitas.index')->with('error', 'Ocorreu um erro ao criar a receita.');
+        }
     }
+
 }
