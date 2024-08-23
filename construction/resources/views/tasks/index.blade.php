@@ -1,177 +1,70 @@
-{{--@extends('layout.master')--}}
-
-{{--@section('nome-app')--}}
-{{--    Tasks--}}
-{{--@endsection--}}
-
-{{--@section('content')--}}
-
-{{--    <div class="row">--}}
-{{--        <div class="col">--}}
-{{--            <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-2">Nova Tarefa</a>--}}
-{{--            --}}{{--        </div>--}}
-{{--            --}}{{--        <div class="col">--}}
-{{--            <a href="{{ route('tasks.completed') }}" class="btn btn-primary mb-2">Ver Tarefas Concluídas</a>--}}
-{{--            <div class="mx-1 mb-2 form-check form-switch">--}}
-{{--                <input class="form-check-input" type="checkbox" id="filtroTarefasCompletas">--}}
-{{--                <label class="form-check-label" for="filtroTarefasCompletas">Esconder tarefas completas</label>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-
-{{--    </div>--}}
-{{--    <div class="row">--}}
-{{--        @if($tasks->where('completed', 0)->isEmpty())--}}
-{{--            <p>Nenhuma tarefa pendente!</p>--}}
-{{--        @else--}}
-{{--            <div id="cards" class="row">--}}
-{{--                @foreach($tasks as $task)--}}
-{{--                    @if(!$task->completed)--}}
-{{--                        <div class="col-md-4 mb-4">--}}
-{{--                            <div class="card">--}}
-{{--                                <div class="card-body">--}}
-{{--                                    <h5 class="card-title">{{ $task->title }}</h5>--}}
-{{--                                    <p class="card-text">{{ $task->description }}</p>--}}
-{{--                                    <p class="card-text">--}}
-{{--                                        Data: {{ $task->date ? date('d/m/Y', strtotime($task->date)) : 'Não definida' }}</p>--}}
-{{--                                    <p class="card-text">Concluída: {{ $task->completed ? 'Sim' : 'Não' }}</p>--}}
-{{--                                    <p class="card-text">Criada em: {{ $task->created_at->format('d/m/Y')  }}</p>--}}
-{{--                                    <p class="card-text">Atualizada em: {{  $task->updated_at->format('d/m/Y') }}</p>--}}
-{{--                                    <div class="btn-group" role="group" aria-label="Basic example" id="buttonform">--}}
-{{--                                        <div class="btn-group" role="group">--}}
-{{--                                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">--}}
-{{--                                                <i class="fa-solid fa-gear fa-spin"></i>--}}
-{{--                                            </button>--}}
-{{--                                            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">--}}
-{{--                                                <li><a class="dropdown-item" href="{{ route('tasks.show', $task) }}">Visualizar</a></li>--}}
-{{--                                                <li><a class="dropdown-item" href="{{ route('tasks.edit', $task) }}">Editar</a></li>--}}
-{{--                                                <li>--}}
-{{--                                                    <form action="{{ route('tasks.markAsCompleted', $task) }}" method="POST" class="dropdown-item">--}}
-{{--                                                        @csrf--}}
-{{--                                                        @method('PUT')--}}
-{{--                                                        <button type="submit" class="btn btn-success" title="Concluir">--}}
-{{--                                                            Concluir--}}
-{{--                                                        </button>--}}
-{{--                                                     </form>--}}
-{{--                                                </li>--}}
-{{--                                            </ul>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
-{{--        @endif--}}
-
-{{--    </div>--}}
-{{--    <script>--}}
-{{--        document.addEventListener('DOMContentLoaded', function () {--}}
-{{--            const filtro = document.getElementById('filtroTarefasCompletas');--}}
-{{--            const cards = document.getElementById('cards'); // Selecionando todos os cards--}}
-
-{{--            // Verifica e aplica o estado salvo do switch--}}
-{{--            const switchState = localStorage.getItem('filtroTarefasCompletas');--}}
-{{--            if (switchState !== null) {--}}
-{{--                filtro.checked = switchState === 'true';--}}
-{{--                toggleTarefas(filtro.checked);--}}
-{{--            }--}}
-
-{{--            filtro.addEventListener('change', function () {--}}
-{{--                toggleTarefas(this.checked);--}}
-{{--                // Salva o estado do switch no LocalStorage--}}
-{{--                localStorage.setItem('filtroTarefasCompletas', this.checked);--}}
-{{--            });--}}
-
-{{--            function toggleTarefas(checked) {--}}
-{{--                cards.forEach(card => {--}}
-{{--                    const isCompleta = card.classList.contains('tarefa-completa');--}}
-{{--                    if (isCompleta && checked) {--}}
-{{--                        card.style.display = 'none';--}}
-{{--                    } else {--}}
-{{--                        card.style.display = '';--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        });--}}
-{{--    </script>--}}
-{{--@endsection--}}
-
-@extends('layout.master')
-
-@section('nome-app')
-    Tasks
-@endsection
-
-@section('content')
-
-    <div class="row">
-        <div class="col">
-            <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-2">Nova Tarefa</a>
-                    </div>
-            {{--        <div class="col">--}}
-{{--            <a href="{{ route('tasks.completed') }}" class="btn btn-primary mb-2">Ver Tarefas Concluídas</a>--}}
-            <div class="mx-1 mb-2 form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="filtroTarefasCompletas">
-                <label class="form-check-label" for="filtroTarefasCompletas">Esconder tarefas completas</label>
-            </div>
-        </div>
-
-
-    </div>
-    <div class="row">
-        @if($tasks->where('completed', 0)->isEmpty())
-            <p>Nenhuma tarefa pendente!</p>
-        @else
-            <div id="cards" class="row">
-                @foreach($tasks as $task)
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $task->title }}</h5>
-                                <p class="card-text">{{ $task->description }}</p>
-                                <p class="card-text">
-                                    Data: {{ $task->date ? date('d/m/Y', strtotime($task->date)) : 'Não definida' }}</p>
-                                <p class="card-text">Concluída: {{ $task->completed ? 'Sim' : 'Não' }}</p>
-                                <p class="card-text">Criada em: {{ $task->created_at->format('d/m/Y')  }}</p>
-                                <p class="card-text">Atualizada em: {{  $task->updated_at->format('d/m/Y') }}</p>
-                                <div class="btn-group" role="group" aria-label="Basic example" id="buttonform">
-                                    <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-gear fa-spin"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            <li><a class="dropdown-item" href="{{ route('tasks.show', $task) }}">Visualizar</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('tasks.edit', $task) }}">Editar</a></li>
-                                            <li>
-                                                <form action="{{ route('tasks.markAsCompleted', $task) }}" method="POST" class="dropdown-item">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-success" title="Concluir">
-                                                        Concluir
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Agenda') }}
+        </h2>
+    </x-slot>
+    <div class="py-12">
+        <div class="px-4 mx-auto max-w-screen-2xl lg:px-12">
+            <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+                    <!-- Seção de Tarefas -->
+                    <div>
+                        <div class="bg-white shadow-md dark:bg-gray-800 p-2 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Minhas Tarefas</h3>
+                                <a href="{{ route('tasks.create') }}">
+                                    <x-primary-button>
+                                        <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                            <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                                        </svg>
+                                        Nova Tarefa
+                                    </x-primary-button>
+                                </a>
+                            </div>
+                            <div class="flex items-center mt-4 space-x-2">
+                                <input type="checkbox" id="filtroTarefasCompletas" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <label for="filtroTarefasCompletas" class="ml-2 block text-sm leading-5 text-gray-900 dark:text-gray-100">Esconder tarefas completas</label>
+                            </div>
+                        </div>
+                        <div class="overflow-auto max-h-[500px]">
+                            <div class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-2 p-1 mt-4">
+                                @foreach($tasks as $task)
+                                    <div class="block p-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                                        <h5 class="mb-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $task->title }}</h5>
+                                        <p class="text-sm font-normal text-gray-700 dark:text-gray-400">{{ $task->description }}</p>
+                                        <p class="text-sm font-normal text-gray-700 dark:text-gray-400">
+                                            Data: {{ $task->date ? date('d/m/Y', strtotime($task->date)) : 'Não definida' }}</p>
+                                        <p class="text-sm font-normal text-gray-700 dark:text-gray-400">Concluída: {{ $task->completed ? 'Sim' : 'Não' }}</p>
+                                        <p class="text-sm font-normal text-gray-700 dark:text-gray-400">Criada em: {{ $task->created_at->format('d/m/Y') }}</p>
+                                        <p class="text-sm font-normal text-gray-700 dark:text-gray-400">Atualizada em: {{ $task->updated_at->format('d/m/Y') }}</p>
+                                        <div class="flex justify-end mt-2">
+                                            <!-- Botões ou outras opções aqui -->
+                                        </div>
                                     </div>
-                                </div>
-
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                @endforeach
+                    <!-- Seção de Calendário -->
+                    <div>
+                        <div id="calendar" class="bg-white shadow-md dark:bg-gray-800 p-4 rounded-lg">
+                            <!-- O calendário será renderizado aqui -->
+                        </div>
+                    </div>
+                </div>
             </div>
-        @endif
-
+        </div>
     </div>
+
+    <!-- FullCalendar Script -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const filtro = document.getElementById('filtroTarefasCompletas');
-            const cards = document.querySelectorAll('.card'); // Selecionando todos os cards
+            const cards = document.querySelectorAll('.card');
 
-            // Verifica e aplica o estado salvo do switch
             const switchState = localStorage.getItem('filtroTarefasCompletas');
             if (switchState !== null) {
                 filtro.checked = switchState === 'true';
@@ -180,7 +73,6 @@
 
             filtro.addEventListener('change', function () {
                 toggleTarefas(this.checked);
-                // Salva o estado do switch no LocalStorage
                 localStorage.setItem('filtroTarefasCompletas', this.checked);
             });
 
@@ -194,7 +86,24 @@
                     }
                 });
             }
+
+            // Configuração do calendário
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'pt-br',
+                events: [
+                        @foreach($tasks as $task)
+                    {
+                        title: '{{ $task->title }}',
+                        start: '{{ $task->date }}',
+                        allDay: true,
+                        url: '{{ route('tasks.show', $task) }}'
+                    },
+                    @endforeach
+                ]
+            });
+            calendar.render();
         });
     </script>
-@endsection
-
+</x-app-layout>

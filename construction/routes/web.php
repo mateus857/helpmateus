@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceitaAReceberController;
 use App\Http\Controllers\ReceitaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/receitas-a-receber', [ReceitaAReceberController::class, 'index'])->name('receitas-a-receber.index');
     Route::get('/receitas-a-receber/create', [ReceitaAReceberController::class, 'create'])->name('receitas-a-receber.create');
     Route::post('/receitas-a-receber', [ReceitaAReceberController::class, 'store'])->name('receitas-a-receber.store');
+
+    // Mantenha a rota para o CRUD padrão de tarefas
+    Route::resource('tasks', TaskController::class)->middleware(['auth', 'verified']);
+
+// Rota para exibir tarefas concluídas
+    Route::get('/tasks/completed', [TaskController::class, 'completed'])->name('tasks.completed');
+
+// Rota para marcar uma tarefa como completa
+    Route::put('/tasks/{task}/complete', [TaskController::class, 'markAsCompleted'])->name('tasks.markAsCompleted');
 });
 
 require __DIR__.'/auth.php';
